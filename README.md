@@ -1,5 +1,6 @@
 Github:
 https://github.com/TanyaPanich/react-inbox
+https://github.com/TanyaPanich/redux-inbox
 
 Stories
 There are a lot of stories here, which is intentional. The idea is for you to become fluent with these basic concepts before moving on to the more complex aspects of React.

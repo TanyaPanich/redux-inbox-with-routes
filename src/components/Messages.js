@@ -1,43 +1,23 @@
 import React from 'react'
 import Message from './Message'
 import ComposeForm from './ComposeForm'
+import { connect } from 'react-redux'
 
-
-class Messages extends React.Component {
-
-  constructor(props) {
-    super(props)
-    this.state = {
-      messages: props.messages,
-      toggleClass: props.toggleClass,
-      composeCliked: props.composeCliked,
-      sendMsg: props.sendMsg
-    }
+const Messages = ({messagesState}) => {
+  let composeMsgForm = ''
+  if (messagesState.compose) {
+    composeMsgForm = <ComposeForm/>
   }
-
-  render() {
-    let composeMsgForm = ''
-    if (this.props.composeCliked) {
-      composeMsgForm = <ComposeForm  sendMsg= { this.props.sendMsg }/>
-    }
-    let allMessages = {}
-    //console.log('Messages expandedMsgId', this.props.expandedMsgId )
-    if (this.props.messages) {
-      allMessages = this.props.messages.map(message =>
-        <Message key={ message.id }
-                 message={ message }
-                 toggleClass={ this.state.toggleClass }
-                 expandedMsgId={ this.props.expandedMsgId }
-                 msgBodyDiv={ this.props.msgBodyDiv }
-                 expandMsg={ this.props.expandMsg } />)
-    }
-    return (
-      <div className="Messages">
-        { composeMsgForm }
-        { allMessages }
-      </div>
-    )
-  }
+  return (<div className="Messages">
+    {composeMsgForm}
+    {for (message of messagesState.messages) {
+      <Message message=message/>
+    }}
+  </div>)
 }
 
-export default Messages
+const mapStateToProps = (state) => {
+  return {messagesState: state.messagesState}
+}
+
+export default connect(mapStateToProps)(Messages)
