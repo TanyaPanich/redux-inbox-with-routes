@@ -1,15 +1,26 @@
-import {createStore, applyMiddleware, bindActionCreators} from 'redux'
-import { connect } from 'react-redux'
-import thunkMiddleware from 'redux-thunk'
 import React, {Component} from 'react'
+import {connect} from 'react-redux'
+import {bindActionCreators} from 'redux'
 import './App.css'
 import Messages from './components/Messages'
 import Toolbar from './components/Toolbar'
-import {initialize} from './actions/app.js'
-import rootReducer from './reducers'
+import { initialize } from './actions/app.js'
 
-const createThunkStore = (reducers) => {
-  return createStore({reducers, applyMiddleware(thunkMiddleware)})
+class App extends Component {
+
+  async componentDidMount() {
+    console.log('componentDidMount ', this.props)
+    this.props.initialize()
+  }
+
+  render() {
+    console.log('app render ', this.props)
+      return (<div className='App container'>
+        <h1>Redux Inbox</h1>
+        <Toolbar/>
+        <Messages/>
+      </div>)
+  }
 }
 
 const mapStateToProps = (state) => {
@@ -20,28 +31,7 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
   initialize
 }, dispatch)
 
-class App extends Component {
-  async componentDidMount() {
-    this.props.initialize()
-  }
-
-  render() {
-    if (this.props.messagesState.messages.length === 0) {
-      return <div>No messages...</div>
-    } else {
-      return (<div className='App container'>
-        <h1>React Inbox</h1>
-        <Toolbar/>
-        <Messages/>
-      </div>)
-    }
-  }
-}
-const ReduxApp = connect(mapStateToProps, mapDispatchToProps)(App)
-
-ReactDOM.render(<Provider store={createThunkStore(rootReducer)}>
-  <ReduxApp/>
-</Provider>)
+export default connect(mapStateToProps, mapDispatchToProps)(App)
 
 // class App extends Component {
 //   constructor() {
@@ -243,4 +233,3 @@ ReactDOM.render(<Provider store={createThunkStore(rootReducer)}>
 //     }
 //   }
 // }
-export default App

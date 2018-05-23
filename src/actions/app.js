@@ -1,15 +1,18 @@
 export const INITIALIZE = 'INITIALIZE'
 
 export const initialize = () => {
-  return (dispatch) => {
+
+  return async (dispatch) => {
+    console.log('we are in initialize action')
+    let newMessages = []
     const messagesResponse = await fetch(`/api/messages`)
     if (messagesResponse.status === 200) {
       const messagesJSON = await messagesResponse.json()
-      const newMessages = messagesJSON._embedded.messages
-      dispatch({
-        type: INITIALIZE,
-        messages: newMessages
-      })
+      newMessages = messagesJSON._embedded.messages
     }
+    dispatch({
+      type: INITIALIZE,
+      messages: newMessages
+    })
   }
 }

@@ -1,24 +1,40 @@
 import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import {
+  composeMessage,
+  deleteMessages,
+  toggleSelectAll,
+  markReadSelected,
+  markUnreadSelected,
+  addLabelToMessages,
+  removeLabelFromMessages
+} from '../actions/toolbar.js'
 
-class Toolbar extends React.Component {
-  
-  checkSelected = (messages) => {
-    if(this.props.countMsgProps('selected') === 0) {
-      return 'fa fa-square-o'
-    } else if (this.props.countMsgProps('selected') < messages.length) {
-      return 'fa fa-minus-square-o'
-    } else {
-      return 'fa fa-check-square-o'
-    }
+const Toolbar = ({
+  messagesState,
+  composeMessage,
+  deleteMessages,
+  toggleSelectAll,
+  markReadSelected,
+  markUnreadSelected,
+  addLabelToMessages,
+  removeLabelFromMessages
+  }) => {
+
+  const getCheckBoxClassName = () => {
+    return {'NONE': 'fa fa-square-o',
+            'SOME': 'fa fa-minus-square-o',
+            'ALL': 'fa fa-check-square-o'
+           }[messagesState.allSelected]
   }
 
-  render() {
-    return (
+  return (
       <div className="row toolbar">
         <div className="col-md-12">
           <p className="pull-right">
             <span className="badge badge">
-              {this.props.messages.length - this.props.countMsgProps("read")}
+              {messagesState.unreadCount}
             </span>
             unread messages
           </p>
@@ -26,31 +42,32 @@ class Toolbar extends React.Component {
           <a className="btn btn-danger">
             <i className="fa fa-plus"
               onClick={() => {
-                this.props.clickComposeMsg()}}>
+                composeMessage()}}>
             </i>
           </a>
 
           <button className="btn btn-default"
                   onClick={() => {
-                    this.props.bulkSelectUnselect()}}>
-            <i className={this.checkSelected(this.props.messages)}></i>
+                    toggleSelectAll()}}>
+            <i className={getCheckBoxClassName()}></i>
           </button>
 
           <button className="btn btn-default"
                   onClick={() => {
-                    this.props.markReadUnread(true)}}>
+                    markReadSelected()}}>
             Mark As Read
           </button>
 
           <button className="btn btn-default"
                   onClick={() => {
-                    this.props.markReadUnread(false)}}>
+                    markUnreadSelected()}}>
             Mark As Unread
           </button>
 
           <select className="form-control label-select"
                   onChange={(e) => {
-                    this.props.updateMsgLabels(e.target.value, true)
+                    console.log('Inside Toolbal, label', e.target.value)
+                    addLabelToMessages(e.target.value)
                   }}>
             <option value={false}>Apply label</option>
             <option value="dev">dev</option>
@@ -60,7 +77,7 @@ class Toolbar extends React.Component {
 
           <select className="form-control label-select"
                   onChange={(e) => {
-                    this.props.updateMsgLabels(e.target.value, false)
+                    removeLabelFromMessages(e.target.value)
                   }}>
             <option>Remove label</option>
             <option value="dev">dev</option>
@@ -70,13 +87,30 @@ class Toolbar extends React.Component {
 
           <button className="btn btn-default"
                   onClick={() => {
-                    this.props.deleteMsg()
+                    deleteMessages()
                   }}>
             <i className="fa fa-trash-o"></i>
           </button>
         </div>
       </div>
     )
-  }
 }
-export default Toolbar
+
+
+const mapStateToProps = (state) => {
+  return {messagesState: state.messagesState}
+}
+const mapDispatchToProps = (dispatch) => bindActionCreators({
+  composeMessage,
+  deleteMessages,
+  toggleSelectAll,
+  markReadSelected,
+  markUnreadSelected,
+  addLabelToMessages,
+  removeLabelFromMessages
+}, dispatch)
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Toolbar)

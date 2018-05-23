@@ -9,5 +9,18 @@ const toggleProperty =  (id, property) => {
 }
 
 export const toggleSelect = id => toggleProperty(id, TOGGLE_SELECT)
-export const toggleExpand = id => toggleProperty(id, TOGGLE_EXPAND)
 export const toggleStarred = id => toggleProperty(id, TOGGLE_STARRED)
+
+export const toggleExpand = (id, isExpanded) => {
+  return async (dispatch) => {
+    let body = null
+    if (!isExpanded) {
+      const responseMsgBody = await fetch(`/api/messages/${id}`)
+      if (responseMsgBody.status === 200) {
+        const jsonMsgBody = await responseMsgBody.json()
+        body = jsonMsgBody.body
+      }
+    }
+    dispatch({type: TOGGLE_EXPAND, id: id, body: body})
+  }
+}

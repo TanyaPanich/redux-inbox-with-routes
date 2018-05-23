@@ -10,9 +10,11 @@ const Messages = ({messagesState}) => {
   }
   return (<div className="Messages">
     {composeMsgForm}
-    {for (message of messagesState.messages) {
-      <Message message=message/>
-    }}
+    {messagesState.messages.map((m, idx) =>
+      <Message message={ m }
+               key={ idx }
+      />)
+    }
   </div>)
 }
 
