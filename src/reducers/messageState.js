@@ -22,10 +22,10 @@ export const messageState = (state, action) => {
       return {...state, selected: !state.selected}
     case TOGGLE_EXPAND:
       if (action.id !== state.message.id) {
-        return state
+        return !state.expanded ? state : {...state, expanded: false, body: null }
       }
-      const message = {...state.message, read: true, body: action.body}
-      return {...state, expanded: !state.expanded, message: message}
+      const message = {...state.message, read: true}
+      return {...state, expanded: !state.expanded, body: action.body, message: message}
     case TOGGLE_STARRED:
       if (action.id !== state.message.id) {
         return state
@@ -54,7 +54,7 @@ export const messageState = (state, action) => {
       if (!state.selected) {
         return state
       }
-      return {...state.message, message:
+      return {...state, message:
                 {...state.message,
                   labels: removeMsgLabels(state.message.labels, action.label)
                 }

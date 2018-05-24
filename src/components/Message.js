@@ -23,8 +23,7 @@ const Message = ({message,toggleSelect,
   const isSelected = message.selected ? 'selected' : ''
   const isChecked = message.selected ? 'checked' : ''
   const isStarred = message.message.starred ? 'star fa fa-star' : 'star fa fa-star-o'
-  const msgBodyDiv = message.body ? constructBodyDiv(message.body) : null
-
+  const msgBodyDiv = message.body && message.expanded ? constructBodyDiv(message.body) : null
   return (
     <div>
       <div className={`row message ${isRead} ${isSelected}`}>

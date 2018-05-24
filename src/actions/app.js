@@ -1,9 +1,8 @@
 export const INITIALIZE = 'INITIALIZE'
 
 export const initialize = () => {
-
   return async (dispatch) => {
-    console.log('we are in initialize action')
+    console.log('1. we are in initialize action')
     let newMessages = []
     const messagesResponse = await fetch(`/api/messages`)
     if (messagesResponse.status === 200) {

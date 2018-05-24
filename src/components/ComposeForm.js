@@ -1,20 +1,21 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import { sendMessage } from '../actions/compose.js'
+import {sendMessage} from '../actions/sendMessage.js'
 
-const handleSubmit = (sendMessage, event) => {
-  event.preventDefault()
+const handleSubmit = (func, e) => {
+  e.preventDefault()
   const subject = document.querySelector('#subject').value || ''
   const body = document.querySelector('#body').value || ''
-  console.log('subject', subject)
-  console.log('body', body)
-  sendMessage(subject, body)
+  func(subject, body)
 }
 
-const ComposeForm = (sendMessage) => (<form className="form-horizontal well" onSubmit={(event) => {
-    handleSubmit(sendMessage, event)
-  }}>
+const ComposeForm = ({sendMessage}) =>
+  (<form className="form-horizontal well"
+         onSubmit={(event) => {
+                    handleSubmit(sendMessage, event)
+                  }}
+    >
   <div className="form-group">
     <div className="col-sm-8 col-sm-offset-2">
       <h4>Compose Message</h4>
