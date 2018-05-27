@@ -17,8 +17,8 @@ class App extends Component {
     console.log('app render ', this.props)
       return (<div className='App container'>
         <h1>Redux Inbox</h1>
-        <Toolbar/>
-        <Messages/>
+        <Toolbar />
+        <Messages />
       </div>)
   }
 }
