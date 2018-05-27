@@ -1,4 +1,4 @@
-import {TOGGLE_SELECT, TOGGLE_EXPAND, TOGGLE_STARRED}  from '../actions/message.js'
+import {TOGGLE_SELECT, TOGGLE_STARRED, MARK_AS_READ}  from '../actions/message.js'
 import {MARK_READ_SELECTED, MARK_UNREAD_SELECTED, ADD_LABEL_TO_SELECTED,
         REMOVE_LABEL_FROM_SELECTED}  from '../actions/toolbar.js'
 
@@ -20,12 +20,11 @@ export const messageState = (state, action) => {
         return state
       }
       return {...state, selected: !state.selected}
-    case TOGGLE_EXPAND:
+    case MARK_AS_READ:
       if (action.id !== state.message.id) {
-        return !state.expanded ? state : {...state, expanded: false, body: null }
+        return state
       }
-      const message = {...state.message, read: true}
-      return {...state, expanded: !state.expanded, body: action.body, message: message}
+      return {...state, message: {...state.message, read: true}}
     case TOGGLE_STARRED:
       if (action.id !== state.message.id) {
         return state

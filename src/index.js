@@ -1,4 +1,5 @@
 import React from 'react'
+import { BrowserRouter as Router } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap/dist/css/bootstrap-theme.css'
 import 'font-awesome/css/font-awesome.css'
@@ -15,7 +16,9 @@ const store = createStore(rootReducer, applyMiddleware(thunk))
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <Router>
+      <App />
+    </Router>
   </Provider>,
   document.getElementById('root')
 )

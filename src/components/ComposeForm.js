@@ -2,18 +2,22 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import {sendMessage} from '../actions/sendMessage.js'
+import { withRouter } from 'react-router-dom'
 
-const handleSubmit = (func, e) => {
+const handleSubmit = (func, e, history) => {
+  console.log("history in Compose message", history)
   e.preventDefault()
   const subject = document.querySelector('#subject').value || ''
   const body = document.querySelector('#body').value || ''
   func(subject, body)
+  history.push('/')
 }
 
-const ComposeForm = ({sendMessage}) =>
-  (<form className="form-horizontal well"
+const ComposeForm = ({sendMessage, history}) =>{
+  console.log('in compose form', history)
+  return (<form className="form-horizontal well"
          onSubmit={(event) => {
-                    handleSubmit(sendMessage, event)
+                    handleSubmit(sendMessage, event, history)
                   }}
     >
   <div className="form-group">
@@ -39,10 +43,12 @@ const ComposeForm = ({sendMessage}) =>
     </div>
   </div>
 </form>)
+}
+
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
   sendMessage
 }, dispatch)
 
 //null because here we don't need state
-export default connect(null, mapDispatchToProps)(ComposeForm)
+export default withRouter(connect(null, mapDispatchToProps)(ComposeForm))

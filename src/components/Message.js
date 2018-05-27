@@ -1,29 +1,43 @@
-import React from 'react'
+import React, {Component} from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { toggleSelect,
          toggleStarred,
-         toggleExpand } from '../actions/message.js'
+         markAsRead
+       } from '../actions/message.js'
+import { Route, withRouter } from 'react-router-dom'
 
+class ExpandedMessage extends Component {
+  state = { body: null }
+  async componentDidMount() {
+    let body = null
+    let id = this.props.location.pathname.split('/').pop()
+    const responseMsgBody = await fetch(`/api/messages/${id}`)
+    if (responseMsgBody.status === 200) {
+      const jsonMsgBody = await responseMsgBody.json()
+      body = jsonMsgBody.body
+    }
+    this.setState({ body: body})
+  }
 
-const constructBodyDiv = (body) => {
-  return <div className="row message-body">
-            <div className="col-xs-11 col-xs-offset-1">
-              { body }
-            </div>
-          </div>
+  render() {
+    return (<div className="row message-body">
+              <div className="col-xs-11 col-xs-offset-1">
+                { this.state.body }
+              </div>
+            </div>)
+  }
 }
 
 const Message = ({message,toggleSelect,
                 toggleStarred,
-                toggleExpand}) => {
+                markAsRead, history, location }) => {
 
-  console.log("Message:", message)
   const isRead = message.message.read ? 'read' : 'unread'
   const isSelected = message.selected ? 'selected' : ''
   const isChecked = message.selected ? 'checked' : ''
   const isStarred = message.message.starred ? 'star fa fa-star' : 'star fa fa-star-o'
-  const msgBodyDiv = message.body && message.expanded ? constructBodyDiv(message.body) : null
+  const expandedPath = `/messages/${message.message.id}`
   return (
     <div>
       <div className={`row message ${isRead} ${isSelected}`}>
@@ -53,14 +67,19 @@ const Message = ({message,toggleSelect,
 
           <a onClick = {(e) => {
             e.preventDefault()
-            toggleExpand(message.message.id, message.expanded)
+            if(location.pathname === expandedPath) {
+              history.push('/')
+            } else {
+              history.push(expandedPath)
+              markAsRead(message.message.id)
+            }
             }} >
             { message.message.subject }
           </a>
 
         </div>
       </div>
-      { msgBodyDiv }
+      <Route path={ expandedPath } component={ ExpandedMessage }/>
     </div>
   )
 }
@@ -68,10 +87,10 @@ const Message = ({message,toggleSelect,
 const mapDispatchToProps = (dispatch) => bindActionCreators({
   toggleSelect,
   toggleStarred,
-  toggleExpand
+  markAsRead
 }, dispatch)
 
-export default connect(
+export default withRouter(connect(
   null,
   mapDispatchToProps
-)(Message)
+)(Message))

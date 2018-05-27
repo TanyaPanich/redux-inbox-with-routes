@@ -15,6 +15,7 @@ export const sendMessage = (subject, body) => {
       const messageJSON = await newMsg.json()
       console.log('newMsg-->', messageJSON)
       dispatch({type: SEND_MESSAGE, message: messageJSON})
+      
     }
   }
 }

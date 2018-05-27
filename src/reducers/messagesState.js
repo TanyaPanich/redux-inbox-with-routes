@@ -1,8 +1,7 @@
 import { INITIALIZE } from '../actions/app.js'
 import { SEND_MESSAGE } from '../actions/sendMessage.js'
-import { TOGGLE_SELECT, TOGGLE_EXPAND, TOGGLE_STARRED } from '../actions/message.js'
+import { TOGGLE_SELECT, TOGGLE_STARRED, MARK_AS_READ } from '../actions/message.js'
 import {
-  TOGGLE_COMPOSE_MESSAGE,
   DELETE_SELECTED,
   TOGGLE_SELECT_ALL,
   MARK_READ_SELECTED,
@@ -52,7 +51,7 @@ const getUnreadCount = messages => {
 }
 
 const wrapMessage = (message) => {
-  return {message: message, selected: false, expanded: false, body: null}
+  return {message: message, selected: false}
 }
 
 
@@ -70,7 +69,6 @@ export const messagesState = (state = {
         return {
           ...state,
           allSelected: 'NONE',
-          compose: false,
           unreadCount: getUnreadCount(messages),
           messages: messages
         }
@@ -97,27 +95,13 @@ export const messagesState = (state = {
           messages: messages
         }
       }
-    case TOGGLE_COMPOSE_MESSAGE: // Action fields: type
-      {
-        console.log('COMPOSE_MESSAGE action', action)
-        return {
-          ...state,
-          compose: !state.compose,
-          messages: state.messages.map(
-            m => !m.expanded ? m : {
-              ...m,
-              expanded: false
-            })
-
-        }
-      }
     case SEND_MESSAGE: // Action fields: type, message
       {
         console.log("SEND_MESSAGE action", action)
         return {
           ...state,
-          messages: [...state.messages, wrapMessage(action.message)],
-          compose: false
+          unreadCount: getUnreadCount(state.messages) + 1,
+          messages: [...state.messages, wrapMessage(action.message)]
         }
       }
     case DELETE_SELECTED: // Action fields: type
@@ -137,20 +121,20 @@ export const messagesState = (state = {
         }
         return newState
       }
-     case TOGGLE_EXPAND: // Action fields: type, id, body
-      {
-        console.log("TOGGLE_EXPAND action", action)
-        const messages = state.messages.map(m => messageState(m, action))
-        const newState = {
-          ...state,
-          messages: messages,
-          unreadCount: getUnreadCount(messages)
-        }
-        if (didPersitantStateChanged(state, newState)) {
-          updateMsgsState([action.id], 'read', 'read', true)
-        }
-        return newState
-      }
+    case MARK_AS_READ: // Action fields: type, id
+     {
+       console.log("MARK_AS_READ action", action)
+       const messages = state.messages.map(m => messageState(m, action))
+       const newState = {
+         ...state,
+         messages: messages,
+         unreadCount: getUnreadCount(messages)
+       }
+       if (didPersitantStateChanged(state, newState)) {
+         updateMsgsState([action.id], 'read', 'read', true)
+       }
+       return newState
+     }
     case MARK_READ_SELECTED: // Action fields: type
     case MARK_UNREAD_SELECTED: // Action fields: type
       {

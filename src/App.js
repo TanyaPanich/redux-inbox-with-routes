@@ -5,6 +5,7 @@ import './App.css'
 import Messages from './components/Messages'
 import Toolbar from './components/Toolbar'
 import { initialize } from './actions/app.js'
+import { withRouter } from 'react-router-dom'
 
 class App extends Component {
 
@@ -12,7 +13,6 @@ class App extends Component {
     console.log('componentDidMount ', this.props)
     this.props.initialize()
   }
-//render
   render() {
     console.log('app render ', this.props)
       return (<div className='App container'>
@@ -31,7 +31,7 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
   initialize
 }, dispatch)
 
-export default connect(mapStateToProps, mapDispatchToProps)(App)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App))
 
 // class App extends Component {
 //   constructor() {

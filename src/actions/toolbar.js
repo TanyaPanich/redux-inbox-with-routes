@@ -1,4 +1,3 @@
-export const TOGGLE_COMPOSE_MESSAGE = 'TOGGLE_COMPOSE_MESSAGE'
 export const DELETE_SELECTED = 'DELETE_SELECTED'
 export const TOGGLE_SELECT_ALL = 'TOGGLE_SELECT_ALL'
 export const MARK_READ_SELECTED = 'MARK_READ_SELECTED'
@@ -10,7 +9,6 @@ const updateState =  (property) => {
   return (dispatch) => { dispatch({ type: property }) }
 }
 
-export const composeMessage = () => updateState(TOGGLE_COMPOSE_MESSAGE)
 export const deleteMessages = () => updateState(DELETE_SELECTED)
 export const toggleSelectAll = () => updateState(TOGGLE_SELECT_ALL)
 export const markReadSelected = () => updateState(MARK_READ_SELECTED)

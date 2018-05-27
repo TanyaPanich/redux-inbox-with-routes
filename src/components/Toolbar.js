@@ -1,8 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { withRouter } from 'react-router-dom'
 import {
-  composeMessage,
   deleteMessages,
   toggleSelectAll,
   markReadSelected,
@@ -13,14 +13,18 @@ import {
 
 const Toolbar = ({
   messagesState,
-  composeMessage,
   deleteMessages,
   toggleSelectAll,
   markReadSelected,
   markUnreadSelected,
   addLabelToMessages,
-  removeLabelFromMessages
+  removeLabelFromMessages,
+  //history, location comes from withRouter
+  history,
+  location
   }) => {
+    console.log('location',location)
+    console.log('history',location)
 
   const getCheckBoxClassName = () => {
     return {'NONE': 'fa fa-square-o',
@@ -41,8 +45,15 @@ const Toolbar = ({
 
           <a className="btn btn-danger">
             <i className="fa fa-plus"
-              onClick={() => {
-                composeMessage()}}>
+              onClick={() =>
+                {
+                  if(location.pathname === '/compose') {
+                    history.push('/')
+                  } else {
+                    history.push('/compose')
+                  }
+                }
+              }>
             </i>
           </a>
 
@@ -101,7 +112,6 @@ const mapStateToProps = (state) => {
   return {messagesState: state.messagesState}
 }
 const mapDispatchToProps = (dispatch) => bindActionCreators({
-  composeMessage,
   deleteMessages,
   toggleSelectAll,
   markReadSelected,
@@ -110,7 +120,7 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
   removeLabelFromMessages
 }, dispatch)
 
-export default connect(
+export default withRouter(connect(
   mapStateToProps,
   mapDispatchToProps
-)(Toolbar)
+)(Toolbar))
