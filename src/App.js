@@ -12,7 +12,7 @@ class App extends Component {
     console.log('componentDidMount ', this.props)
     this.props.initialize()
   }
-
+//render
   render() {
     console.log('app render ', this.props)
       return (<div className='App container'>
