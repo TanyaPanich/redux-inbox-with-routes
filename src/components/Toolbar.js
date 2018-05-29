@@ -23,8 +23,8 @@ const Toolbar = ({
   history,
   location
   }) => {
-    console.log('location',location)
-    console.log('history',location)
+    // console.log('location',location)
+    // console.log('history',location)
 
   const getCheckBoxClassName = () => {
     return {'NONE': 'fa fa-square-o',

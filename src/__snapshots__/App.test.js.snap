@@ -1,0 +1,165 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`App renders the same way every time 1`] = `
+<div
+  className="App container"
+>
+  <h1>
+    Redux Inbox With Routes
+  </h1>
+  <div
+    className="row toolbar"
+  >
+    <div
+      className="col-md-12"
+    >
+      <p
+        className="pull-right"
+      >
+        <span
+          className="badge badge"
+        >
+          0
+        </span>
+        unread messages
+      </p>
+      <a
+        className="btn btn-danger"
+      >
+        <i
+          className="fa fa-plus"
+          onClick={[Function]}
+        />
+      </a>
+      <button
+        className="btn btn-default"
+        onClick={[Function]}
+      >
+        <i
+          className="fa fa-square-o"
+        />
+      </button>
+      <button
+        className="btn btn-default"
+        onClick={[Function]}
+      >
+        Mark As Read
+      </button>
+      <button
+        className="btn btn-default"
+        onClick={[Function]}
+      >
+        Mark As Unread
+      </button>
+      <select
+        className="form-control label-select"
+        onChange={[Function]}
+      >
+        <option
+          value={false}
+        >
+          Apply label
+        </option>
+        <option
+          value="dev"
+        >
+          dev
+        </option>
+        <option
+          value="personal"
+        >
+          personal
+        </option>
+        <option
+          value="gschool"
+        >
+          gschool
+        </option>
+      </select>
+      <select
+        className="form-control label-select"
+        onChange={[Function]}
+      >
+        <option>
+          Remove label
+        </option>
+        <option
+          value="dev"
+        >
+          dev
+        </option>
+        <option
+          value="personal"
+        >
+          personal
+        </option>
+        <option
+          value="gschool"
+        >
+          gschool
+        </option>
+      </select>
+      <button
+        className="btn btn-default"
+        onClick={[Function]}
+      >
+        <i
+          className="fa fa-trash-o"
+        />
+      </button>
+    </div>
+  </div>
+  <div
+    className="Messages"
+  >
+    <div>
+      <div
+        className="row message unread "
+      >
+        <div
+          className="col-xs-1"
+        >
+          <div
+            className="row"
+          >
+            <div
+              className="col-xs-2"
+            >
+              <input
+                checked=""
+                onChange={[Function]}
+                type="checkbox"
+              />
+            </div>
+            <div
+              className="col-xs-2 star fa fa-star"
+              onClick={[Function]}
+            >
+              <i />
+            </div>
+          </div>
+        </div>
+        <div
+          className="col-xs-11"
+        >
+          <span
+            className="label label-warning"
+          >
+            dev
+          </span>
+          <span
+            className="label label-warning"
+          >
+            personal
+          </span>
+          <a
+            onClick={[Function]}
+          >
+            Hey
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
